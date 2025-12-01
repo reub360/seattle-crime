@@ -2,12 +2,24 @@
 
 ## Project Overview
 
-**seattle-crime** is a data analysis and visualization project focused on Seattle crime statistics. This is currently a new project in its initial setup phase.
+**seattle-crime** is a comprehensive data analysis project utilizing publicly available crime incident data from the Seattle Police Department. The goal is to identify trends, patterns, and potential correlations in criminal activity across different neighborhoods and time periods within Seattle, WA. The analysis aims to transform raw data into actionable insights, providing a data-driven perspective on public safety dynamics in the city.
 
-### Project Goals
-- Analyze Seattle crime data to identify patterns and trends
-- Provide visualizations and insights into crime statistics
-- Support data-driven decision making for public safety initiatives
+### Analysis Objectives
+
+1. **Data Cleaning and Preprocessing**: Clean, validate, and structure the raw Seattle crime data for analytical use
+2. **Exploratory Data Analysis (EDA)**: Uncover initial patterns, anomalies, and relationships within the dataset using statistical methods and data visualization
+3. **Trend Identification**: Analyze temporal trends (e.g., time of day, day of week, seasonal variations) and spatial patterns (e.g., crime hotspots) in different types of criminal activity
+4. **Geospatial Analysis/Crime Mapping**: Visualize the geographical distribution of crimes to identify specific high-risk areas in Seattle
+5. **Contextual Correlation**: Integrate external socio-economic and environmental datasets to test hypotheses about the drivers of crime (e.g., income inequality, proximity to transit hubs, weather)
+6. **Reporting**: Present key findings and insights in a clear, accessible format (e.g., reports, interactive dashboards) that can inform discussions around public safety resource allocation
+
+### Key Deliverables
+
+- **Interactive Dashboards**: Visualizations (e.g., built with Tableau or Python libraries like Plotly) showcasing crime frequency, types, and locations
+- **Analysis Notebooks**: Jupyter notebooks detailing the entire analytical workflow, from data ingestion and cleaning to statistical modeling and visualization
+- **Static Visualizations**: High-quality maps and charts in the outputs/ folder
+- **Technical Report (PDF)**: Detailed document summarizing methodologies, assumptions, results, and limitations of the analysis
+- **Cleaned Datasets**: Processed and anonymized datasets ready for further analysis (stored in data/processed directory)
 
 ## Repository Structure
 
@@ -19,8 +31,8 @@ seattle-crime/
 └── CLAUDE.md           # This file - AI assistant guide
 ```
 
-### Recommended Future Structure
-As the project develops, the following structure is recommended:
+### Recommended Structure
+As the project develops, the following structure should be implemented:
 
 ```
 seattle-crime/
@@ -29,23 +41,27 @@ seattle-crime/
 │   ├── processed/      # Cleaned and transformed data
 │   └── README.md       # Data sources and descriptions
 ├── notebooks/          # Jupyter notebooks for exploration
-│   └── exploratory/    # Exploratory data analysis
+│   ├── exploratory/    # Exploratory data analysis
+│   └── analysis/       # Detailed analysis notebooks
 ├── src/                # Source code
 │   ├── analysis/       # Data analysis scripts
 │   ├── visualization/  # Visualization modules
+│   ├── geospatial/     # Geospatial analysis and mapping
 │   ├── utils/          # Utility functions
 │   └── __init__.py
 ├── tests/              # Test files
 │   └── test_*.py
 ├── docs/               # Documentation
-├── output/             # Generated outputs (reports, figures)
-│   ├── figures/
-│   └── reports/
+│   └── reports/        # Technical reports (PDF)
+├── outputs/            # Generated outputs
+│   ├── figures/        # Static visualizations and charts
+│   ├── maps/           # Crime maps and geospatial visualizations
+│   └── dashboards/     # Interactive dashboard exports
 ├── .gitignore          # Git ignore patterns
 ├── requirements.txt    # Python dependencies
 ├── setup.py or pyproject.toml  # Package configuration
 ├── README.md           # Project overview
-└── CLAUDE.md          # This file
+└── CLAUDE.md          # This file - AI assistant guide
 ```
 
 ## Development Workflows
@@ -98,20 +114,28 @@ seattle-crime/
 
 ## Technology Stack
 
-### Recommended Tools (To be determined based on requirements)
+### Recommended Tools
 
 **Data Processing:**
 - `pandas` - Data manipulation and analysis
 - `numpy` - Numerical computing
+- `dask` - Parallel computing for large datasets (optional)
 
 **Visualization:**
 - `matplotlib` - Basic plotting
 - `seaborn` - Statistical visualizations
-- `plotly` - Interactive visualizations
+- `plotly` - Interactive visualizations and dashboards
+- `tableau` - Professional dashboard creation (optional)
 
-**Data Sources:**
-- Seattle Open Data Portal
-- Seattle Police Department data feeds
+**Geospatial Analysis:**
+- `geopandas` - Geographic data processing
+- `folium` - Interactive maps
+- `shapely` - Geometric operations
+- `contextily` - Basemap tiles for maps
+
+**Statistical Analysis:**
+- `scipy` - Scientific computing and statistical tests
+- `statsmodels` - Statistical modeling
 
 **Development Tools:**
 - `pytest` - Testing framework
@@ -260,6 +284,34 @@ df_clean = df.dropna()
 df_clean.to_csv('data/processed/seattle_crime_clean.csv', index=False)
 ```
 
+### Geospatial Analysis Guidelines
+
+1. **Coordinate Systems:**
+   - Use WGS84 (EPSG:4326) for latitude/longitude data
+   - Use appropriate projected CRS for distance calculations (e.g., UTM Zone 10N / EPSG:32610 for Seattle)
+   - Always verify and document the CRS being used
+   - Transform coordinates when necessary for accurate spatial operations
+
+2. **Mapping Best Practices:**
+   - Include basemaps for context (streets, satellite imagery)
+   - Use appropriate color schemes for heatmaps (avoid rainbow)
+   - Add legends, scale bars, and north arrows
+   - Consider colorblind-friendly palettes
+   - Aggregate data appropriately to avoid overplotting
+
+3. **Spatial Analysis:**
+   - Use spatial joins to combine datasets (crimes with neighborhoods, transit stops)
+   - Consider buffer zones when analyzing proximity
+   - Account for edge effects in hotspot analysis
+   - Validate spatial relationships before analysis
+   - Document any assumptions about spatial accuracy
+
+4. **Performance Considerations:**
+   - Use spatial indexing for large datasets
+   - Simplify geometries when appropriate
+   - Consider downsampling for interactive visualizations
+   - Cache basemap tiles to reduce API calls
+
 ## Security Considerations
 
 1. **API Keys and Secrets:**
@@ -272,34 +324,59 @@ df_clean.to_csv('data/processed/seattle_crime_clean.csv', index=False)
    - Implement appropriate access controls
    - Document data retention policies
 
+3. **Privacy Protection:**
+   - Never attempt to de-anonymize location data
+   - Respect privacy redactions in the source data
+   - Aggregate data appropriately to protect individual privacy
+   - Follow all data use agreements and terms of service
+
 ## Project-Specific Notes
+
+### Data Sources
+
+This analysis integrates multiple public datasets to provide a robust, multi-dimensional view of crime and its potential correlations:
+
+| Dataset Name | Source | Type | Purpose in Analysis |
+|--------------|--------|------|---------------------|
+| SPD Crime Data | Seattle Open Data Portal | Core | Primary incident data (time, location, type) |
+| Geospatial Boundaries | Seattle Open Data Portal | Supplemental | Neighborhood boundaries, park locations for mapping |
+| 911 Call Data/CAD | Seattle Open Data Portal | Supplemental | Analyze police response times and call volume |
+| U.S. Census Data | data.census.gov | Contextual | Socio-economic context (income, poverty levels, demographics) |
+| Local Weather Data | NOAA / NCEI | Contextual | Explore weather's impact on certain crime types |
+| Public Transit Locations | King County Metro Data | Contextual | Analyze crime proximity to transit hubs and high-traffic areas |
+
+**Important Links:**
+- Seattle Open Data Portal: https://data.seattle.gov
+- U.S. Census Data: https://data.census.gov
+- NOAA National Centers for Environmental Information: https://www.ncei.noaa.gov
+- King County Metro: https://kingcounty.gov/en/dept/metro
 
 ### Seattle Crime Data Characteristics
 
-1. **Data Sources:**
-   - Seattle Police Department Crime Data
-   - Seattle Open Data Portal (data.seattle.gov)
-   - FBI UCR (Uniform Crime Reporting) for context
-
-2. **Data Fields to Expect:**
+1. **Expected Data Fields (SPD Crime Data):**
    - Incident ID
    - Date/Time of occurrence
    - Crime type/category
    - Location (coordinates, address, neighborhood)
    - Case status
+   - Report number
+   - Offense description
 
-3. **Common Analyses:**
-   - Crime trends over time
-   - Geographic hotspot analysis
-   - Crime type distribution
-   - Temporal patterns (time of day, day of week, seasonal)
-   - Clearance rates
+2. **Analysis Focus Areas:**
+   - **Temporal Analysis**: Crime trends over time, seasonal patterns, time-of-day variations, day-of-week patterns
+   - **Geospatial Analysis**: Geographic hotspot identification, neighborhood-level analysis, proximity to transit/parks
+   - **Crime Classification**: Distribution by crime type, severity patterns
+   - **Contextual Correlations**: Relationship with socio-economic factors, weather patterns, transit accessibility
+   - **Police Response**: Analysis of 911 call data, response times, clearance rates
 
-4. **Considerations:**
-   - Data reporting delays
-   - Changes in reporting practices
-   - Privacy redactions in location data
-   - Crime reclassifications
+3. **Data Considerations:**
+   - Data reporting delays and updates
+   - Changes in reporting practices over time
+   - Privacy redactions in location data (approximate locations)
+   - Crime reclassifications and UCR code changes
+   - Missing or incomplete records
+   - Seasonal variations in reporting
+   - Population density differences across neighborhoods
 
 ## Troubleshooting
 
@@ -326,22 +403,35 @@ df_clean.to_csv('data/processed/seattle_crime_clean.csv', index=False)
 - Seattle Open Data Portal: https://data.seattle.gov
 - Seattle Police Department: https://www.seattle.gov/police
 - Crime Statistics Research: Bureau of Justice Statistics
+- King County Metro Data: https://kingcounty.gov/en/dept/metro
+- U.S. Census Bureau: https://data.census.gov
+- NOAA Climate Data: https://www.ncei.noaa.gov
 
 ### Learning Resources
 - Pandas Documentation: https://pandas.pydata.org
+- GeoPandas Documentation: https://geopandas.org
 - Seaborn Tutorial: https://seaborn.pydata.org/tutorial.html
+- Plotly Documentation: https://plotly.com/python/
+- Folium Documentation: https://python-visualization.github.io/folium/
 - Python Data Science Handbook: https://jakevdp.github.io/PythonDataScienceHandbook/
+
+### Geospatial Analysis Resources
+- Spatial Data Science: https://www.spatialdata.science/
+- Crime Mapping and Analysis: NIJ Crime Mapping Research Center
 
 ## Maintenance
 
 **Last Updated:** 2025-12-01
-**Status:** Initial Setup
+**Status:** Project Planning Phase
 **Next Steps:**
-1. Set up project structure
-2. Identify and document data sources
-3. Create requirements.txt with dependencies
-4. Set up .gitignore
-5. Begin exploratory data analysis
+1. Set up project directory structure (data/, notebooks/, src/, outputs/)
+2. Create requirements.txt with core dependencies (pandas, geopandas, plotly, etc.)
+3. Set up .gitignore for data files and outputs
+4. Download initial SPD crime dataset from Seattle Open Data Portal
+5. Create initial exploratory data analysis notebook
+6. Document data schema and fields in data/README.md
+7. Begin data cleaning and preprocessing pipeline
+8. Develop geospatial visualization prototypes
 
 ---
 
