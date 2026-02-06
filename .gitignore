@@ -1,0 +1,134 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# IPython
+profile_default/
+ipython_config.py
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Data Files (Raw and Processed)
+data/raw/*.csv
+data/raw/*.json
+data/raw/*.geojson
+data/raw/*.shp
+data/raw/*.dbf
+data/raw/*.shx
+data/raw/*.prj
+data/processed/*.csv
+data/processed/*.json
+data/processed/*.geojson
+data/processed/*.parquet
+data/processed/*.pickle
+
+# Keep README files in data directories
+!data/README.md
+!data/*/README.md
+
+# Output Files
+outputs/figures/*.png
+outputs/figures/*.jpg
+outputs/figures/*.pdf
+outputs/figures/*.svg
+outputs/maps/*.html
+outputs/maps/*.png
+outputs/maps/*.pdf
+outputs/dashboards/*.html
+
+# Keep example outputs if any
+!outputs/figures/example_*
+!outputs/maps/example_*
+
+# Reports (exclude drafts, keep final versions)
+docs/reports/*_draft.pdf
+docs/reports/~*.pdf
+
+# Environment Variables and Secrets
+.env
+.env.local
+.env.*.local
+credentials.json
+secrets.json
+*.key
+*.pem
+
+# API Keys
+config/api_keys.py
+config/secrets.py
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Temporary Files
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+*~
+
+# Large Data Files
+*.zip
+*.tar.gz
+*.tar
+*.gz
+*.bz2
+
+# Database Files
+*.db
+*.sqlite
+*.sqlite3
